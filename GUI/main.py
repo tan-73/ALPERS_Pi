@@ -2,15 +2,11 @@ import customtkinter as ctk
 import os
 from tkinter import filedialog
 
-# Base class for the application
 class LicensePlateApp(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        # Configure the main window
         self.title("ALPERS - License Plate Recognition")
-
-        # Set window dimensions to 70-80% of the screen size and center the window
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
         window_width = int(screen_width * 0.75)
@@ -18,19 +14,12 @@ class LicensePlateApp(ctk.CTk):
         x_offset = (screen_width - window_width) // 2
         y_offset = (screen_height - window_height) // 2
         self.geometry(f"{window_width}x{window_height}+{x_offset}+{y_offset}")
-
-        # Disable resizing
         self.resizable(False, False)
+        self.configure(fg_color="#4e54c8")  # Simple color (gradient not fully supported)
 
-        # Set gradient background
-        self.configure(bg_gradient=("#4e54c8", "#8f94fb"))
-
-        # Initialize UI components
         self.initialize_ui()
 
     def initialize_ui(self):
-        """Initialize the UI components."""
-        # Title label
         self.title_label = ctk.CTkLabel(
             self,
             text="ALPERS",
@@ -39,7 +28,6 @@ class LicensePlateApp(ctk.CTk):
         )
         self.title_label.place(relx=0.5, rely=0.1, anchor="center")
 
-        # Button to capture from image
         self.image_button = ctk.CTkButton(
             self,
             text="Capture from Image",
@@ -50,7 +38,6 @@ class LicensePlateApp(ctk.CTk):
         )
         self.image_button.place(relx=0.3, rely=0.6, anchor="center")
 
-        # Button to capture from video
         self.video_button = ctk.CTkButton(
             self,
             text="Capture from Video",
@@ -62,16 +49,15 @@ class LicensePlateApp(ctk.CTk):
         self.video_button.place(relx=0.7, rely=0.6, anchor="center")
 
     def open_image_capture_window(self):
-        """Open a new window to select an image path and process it."""
         toplevel = ctk.CTkToplevel(self)
-        toplevel.after(500, toplevel.focus(), 1)
+        toplevel.after(500, toplevel.focus, 1)
         toplevel.title("Select Image for Recognition")
         toplevel.geometry("400x200")
 
         def process_image():
             image_path = filedialog.askopenfilename(title="Select Image File", filetypes=[("Image Files", "*.jpg;*.png")])
             if image_path:
-                os.system(f"python Main/image.py \"{image_path}\"")
+                os.system(f"python3 Main/image.py \"{image_path}\"")
 
         label = ctk.CTkLabel(
             toplevel,
@@ -89,10 +75,8 @@ class LicensePlateApp(ctk.CTk):
         browse_button.pack(pady=10)
 
     def run_video_capture(self):
-        """Run the video capture functionality."""
-        os.system("python Main/video.py")
+        os.system("python3 Main/video.py")
 
-# Main execution
 if __name__ == "__main__":
     app = LicensePlateApp()
     app.mainloop()
